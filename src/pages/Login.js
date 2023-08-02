@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
+import { addUser } from '../store/userSlice';
+import { Link } from "react-router-dom";
 
 function Login() {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(''); // State to hold the error message
   const navigate = useNavigate();
 
   const handleEmailChange = (event) => {
@@ -17,6 +21,7 @@ function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setError(''); // Clear any previous error message
     var myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
 
@@ -33,15 +38,15 @@ function Login() {
     };
 
     fetch('http://localhost:4000/api/login', requestOptions)
-      .then((response) => response.json()) // Parse the JSON response
+      .then((response) => response.json())
       .then((result) => {
+        dispatch(addUser(result));
         console.log(result);
-        // Assuming the login was successful, navigate to the home page
         if (result.message === 'Login successful') {
           navigate('/home');
         } else {
-          // Handle unsuccessful login here, show an error message or something
-          console.log('Login failed');
+          // Handle unsuccessful login here
+          setError('Invalid email or password'); // Set the error message
         }
       })
       .catch((error) => console.log('error', error));
@@ -49,7 +54,7 @@ function Login() {
 
   return (
     <div className='loginContainer'>
-      <h2>Login</h2>
+      <h2 className='loginHeading'>Welcome Back!</h2>
       <form className='loginForm' onSubmit={handleSubmit}>
         <div className='loginEmail'>
           <label>Email:</label>
@@ -60,7 +65,9 @@ function Login() {
           <input type="password" value={password} onChange={handlePasswordChange} />
         </div>
         <button className='loginButton' type="submit">Login</button>
+        {error && <p className='errorMessage'>{error}</p>} {/* Display error message if it exists */}
       </form>
+      <p className='signupLink'>Don't have an account? {<Link className="navLink" to="/register">Sign Up</Link>}</p>
     </div>
   );
 }

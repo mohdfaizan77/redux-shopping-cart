@@ -7,6 +7,10 @@ import Home from './pages/Home';
 import Cart from './pages/Cart';
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
+import Register from './pages/Register';
+import PrivateRoute from './PrivateRoute'; // Import the custom PrivateRoute component
+
+
 
 function App() {
     return (
@@ -15,6 +19,7 @@ function App() {
                 <BrowserRouter>
                     <Navbar />
                     <Routes>
+                        <Route path="/register" element={<Register />}></Route>
                         <Route path="/" element={<Login />}></Route>
                         <Route path="/home" element={<Home />}></Route>
                         <Route path="/cart" element={<Cart />}></Route>
@@ -24,5 +29,23 @@ function App() {
         </div>
     );
 }
+
+// function App() {
+//     return (
+//       <div className="App">
+//         <Provider store={store}>
+//           <BrowserRouter>
+//             <Navbar />
+//             <Routes>
+//               <Route path="/" element={<Login />} />
+//               <Route path="/register" element={<Register />} />
+//               <PrivateRoute path="/home" element={<Home />} /> {/* Secure the Home route */}
+//               <PrivateRoute path="/cart" element={<Cart />} /> {/* Secure the Cart route */}
+//             </Routes>
+//           </BrowserRouter>
+//         </Provider>
+//       </div>
+//     );
+//   }
 
 export default App;

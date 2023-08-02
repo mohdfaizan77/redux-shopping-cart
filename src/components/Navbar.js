@@ -1,38 +1,37 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { clearState } from "../store/userSlice";
 
 const Navbar = () => {
   const location = useLocation();
   const items = useSelector((state) => state.cart);
+  const userInfo = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
-  if (location.pathname === '/') {
+  const handleLogout = () => {
+    // Clear the user info from the store
+    dispatch(clearState());
+    // You can also perform any other logout-related actions here if needed
+  };
+
+  if (location.pathname === "/register" || location.pathname === "/login" || location.pathname === "/") {
     // Show login button
-    return (
-        <div>
-
-        </div>
-    //   <nav className="">
-    //     <ul className="text-right">
-    //       <li>
-    //         <a href="http://localhost:3000/">Login</a>
-    //       </li>
-    //     </ul>
-    //   </nav>
-    );
+    return <div></div>;
   } else {
     return (
       <div
         style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
         <span className="logo">REDUX STORE</span>
         <div>
-        <span className="cartCount">Cart items: {items.length}</span>
+          <span className="userName">{userInfo?.user.name}</span>
+          <span className="cartCount">Cart items: {items.length}</span>
 
           <Link className="navLink" to="/home">
             Home
@@ -40,10 +39,9 @@ const Navbar = () => {
           <Link className="navLink" to="/cart">
             Cart
           </Link>
-          <Link className="navLink" to="/">
+          <Link className="navLink" to="/" onClick={handleLogout}>
             Logout
           </Link>
-          
         </div>
       </div>
     );
