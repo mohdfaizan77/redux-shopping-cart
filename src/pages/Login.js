@@ -37,7 +37,7 @@ function Login() {
       redirect: 'follow',
     };
 
-    fetch('http://13.127.22.28:4000/api/login', requestOptions)
+    fetch('http://54.166.127.242:4000/api/login', requestOptions)
       .then((response) => response.json())
       .then((result) => {
         dispatch(addUser(result));

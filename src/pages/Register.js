@@ -40,7 +40,7 @@ function Register() {
         redirect: 'follow',
       };
   
-      fetch('http://13.127.22.28:4000/api/register', requestOptions)
+      fetch('http://54.166.127.242:4000/api/register', requestOptions)
         .then((response) => response.json())
         .then((result) => {
           console.log(result);
